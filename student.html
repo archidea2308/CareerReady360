@@ -43,34 +43,32 @@
       </aside>
 
       <!-- Main Content -->
+      <!-- Main Content -->
       <main class="flex-1 p-8">
         <div class="flex justify-between items-center mb-8">
-          <!-- Tampilkan paket di dashboard siswa -->
-          <div
-            class="mb-6 p-4 bg-indigo-50 dark:bg-indigo-900/30 rounded-lg border border-indigo-200 dark:border-indigo-800">
-            <span class="font-medium">Paket Anda:</span>
-            <span
-              id="selectedPackage"
-              class="ml-2 font-semibold text-indigo-700 dark:text-indigo-300"
-              >–</span
-            >
-          </div>
-
           <h1 class="text-2xl font-bold">Dashboard Siswa</h1>
           <div class="flex items-center gap-4">
-            <span
-              id="currentUser"
-              class="text-gray-600 dark:text-gray-300"></span>
+            <div>
+              <span class="text-gray-600 dark:text-gray-300">Paket: </span>
+              <span
+                id="selectedPackage"
+                class="font-semibold text-indigo-700 dark:text-indigo-300"></span>
+            </div>
             <button
               onclick="toggleDarkMode()"
               class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
               <span class="dark:hidden">🌙</span>
               <span class="hidden dark:inline">☀️</span>
             </button>
+            <button
+              onclick="logout()"
+              class="text-red-500 hover:text-red-700 text-sm">
+              Logout
+            </button>
           </div>
         </div>
 
-        <!-- Readiness Score -->
+        <!-- Readiness Section (Tersedia untuk semua paket) -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8">
           <h2 class="text-xl font-semibold mb-4">Skor Kesiapan Kerja</h2>
           <div class="flex items-end gap-6">
@@ -98,114 +96,150 @@
             </div>
             <div>
               <p class="text-gray-600 dark:text-gray-300">
-                Semakin lengkap portofolio, sertifikasi, dan pengalaman magang,
-                skor semakin tinggi.
+                Skor mencerminkan kesiapanmu berdasarkan data yang kamu
+                masukkan.
               </p>
-              <button
-                onclick="simulateUpdate()"
-                class="mt-2 text-sm bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-200 px-3 py-1 rounded">
-                + Tambah Data Simulasi
-              </button>
             </div>
           </div>
         </div>
 
-        <!-- Progress Chart -->
-        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        <!-- Career Booster & Pro: Progress Chart -->
+        <div
+          id="progressSection"
+          class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8 hidden">
           <h2 class="text-xl font-semibold mb-4">Progress Kompetensi</h2>
           <canvas id="progressChart" height="100"></canvas>
+        </div>
+
+        <!-- Career Pro: Talent Visibility Card -->
+        <div
+          id="talentCard"
+          class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8 hidden">
+          <h2 class="text-xl font-semibold mb-3">Profil Talent Pool</h2>
+          <p class="text-green-600 dark:text-green-400 mb-3">
+            ✅ Profil kamu terlihat oleh perusahaan & BKK!
+          </p>
+          <p class="text-gray-600 dark:text-gray-300 text-sm">
+            Perusahaan dapat melihat portofoliomu dan mengundang wawancara
+            langsung.
+          </p>
+        </div>
+
+        <!-- Starter: Upgrade CTA -->
+        <div
+          id="upgradeCTA"
+          class="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-900/30 dark:to-orange-900/30 border border-amber-200 dark:border-amber-800 rounded-xl p-6 mb-8 hidden">
+          <h2 class="text-xl font-bold text-amber-800 dark:text-amber-200 mb-2">
+            Tingkatkan Kariermu!
+          </h2>
+          <p class="text-amber-700 dark:text-amber-300 mb-4">
+            Dengan paket <strong>Career Booster</strong> atau
+            <strong>Career Pro</strong>, kamu bisa:
+          </p>
+          <ul
+            class="list-disc list-inside text-amber-700 dark:text-amber-300 mb-4 space-y-1">
+            <li>Lihat grafik perkembangan kompetensimu</li>
+            <li>Dapatkan rekomendasi magang</li>
+            <li>(Career Pro) Tampil di talent pool industri</li>
+          </ul>
+          <button
+            onclick="alert('Fitur upgrade akan tersedia di versi produksi!')"
+            class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm">
+            Upgrade Sekarang
+          </button>
+        </div>
+
+        <!-- Portofolio Section (Semua paket bisa input, tapi tampil beda) -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-xl font-semibold">Portofolio Saya</h2>
+            <button
+              id="uploadBtn"
+              class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded text-sm">
+              + Tambah Portofolio
+            </button>
+          </div>
+          <div id="portfolioList" class="space-y-3">
+            <!-- Diisi oleh JS -->
+          </div>
         </div>
       </main>
     </div>
 
     <script src="script.js"></script>
     <script>
-      checkAuth();
-      const user = JSON.parse(localStorage.getItem("career360_user"));
-      document.getElementById("currentUser").textContent = user.email;
+      // Tunggu DOM siap
+      document.addEventListener("DOMContentLoaded", () => {
+        // Cek otentikasi
+        const user = JSON.parse(localStorage.getItem("career360_user"));
+        if (!user || user.role !== "student") {
+          window.location.href = "login.html";
+        }
 
-      // Get or create student mock data
-      let student = {
-        name: "Siswa Demo",
-        projects: 2,
-        certifications: 1,
-        internships: 0,
-        softskills: 5,
-      };
-      let score = calculateReadiness(student);
-      renderReadiness(score);
+        // Ambil paket
+        const package =
+          localStorage.getItem("career360_student_package") || "Starter";
+        console.log("Paket aktif:", package); // <-- untuk debug
+        document.getElementById("selectedPackage").textContent = package;
 
-      function renderReadiness(s) {
-        document.getElementById("readinessScore").textContent = s;
-        const offset = -s;
+        // Mock data
+        const studentData = {
+          projects: 3,
+          certifications: 2,
+          internships: 1,
+          softskills: 6,
+          portfolio: ["Aplikasi Inventaris", "Website Sekolah"],
+        };
+
+        // Hitung readiness
+        const score = calculateReadiness(studentData);
+        document.getElementById("readinessScore").textContent = score;
         document.getElementById("readinessArc").style.strokeDashoffset =
-          offset.toString();
-      }
+          (-score).toString();
 
-      // Chart
-      const ctx = document.getElementById("progressChart").getContext("2d");
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Proyek", "Sertifikasi", "Magang", "Soft Skill"],
-          datasets: [
-            {
-              data: [
-                student.projects,
-                student.certifications,
-                student.internships,
-                student.softskills,
-              ],
-              backgroundColor: "#6366f1",
-            },
-          ],
-        },
-        options: {
-          responsive: true,
-          scales: { y: { beginAtZero: true, max: 10 } },
-        },
+        // Reset semua hidden dulu (opsional)
+        document.getElementById("progressSection").classList.add("hidden");
+        document.getElementById("talentCard").classList.add("hidden");
+        document.getElementById("upgradeCTA").classList.add("hidden");
+
+        // Tampilkan berdasarkan paket
+        if (package === "Starter") {
+          document.getElementById("upgradeCTA").classList.remove("hidden");
+          document.getElementById("uploadBtn").disabled = true;
+          document
+            .getElementById("uploadBtn")
+            .classList.add("opacity-50", "cursor-not-allowed");
+        } else {
+          document.getElementById("uploadBtn").disabled = false;
+          document
+            .getElementById("uploadBtn")
+            .classList.remove("opacity-50", "cursor-not-allowed");
+        }
+
+        if (package === "Career Booster" || package === "Career Pro") {
+          document.getElementById("progressSection").classList.remove("hidden");
+          // ... (render chart di sini jika diperlukan)
+        }
+
+        if (package === "Career Pro") {
+          document.getElementById("talentCard").classList.remove("hidden");
+        }
+
+        // Render portofolio
+        const list = document.getElementById("portfolioList");
+        list.innerHTML = studentData.portfolio.length
+          ? studentData.portfolio
+              .map(
+                (p) =>
+                  `<div class="p-3 bg-gray-100 dark:bg-gray-700 rounded">${p}</div>`
+              )
+              .join("")
+          : '<p class="text-gray-500 italic">Belum ada portofolio.</p>';
       });
-
-      function simulateUpdate() {
-        student.projects += 1;
-        student.certifications += 1;
-        student.internships += 1;
-        student.softskills = Math.min(10, student.softskills + 1);
-        const newScore = calculateReadiness(student);
-        renderReadiness(newScore);
-        // Re-render chart
-        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-        new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: ["Proyek", "Sertifikasi", "Magang", "Soft Skill"],
-            datasets: [
-              {
-                data: [
-                  student.projects,
-                  student.certifications,
-                  student.internships,
-                  student.softskills,
-                ],
-                backgroundColor: "#6366f1",
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            scales: { y: { beginAtZero: true, max: 10 } },
-          },
-        });
-      }
 
       function toggleDarkMode() {
         document.documentElement.classList.toggle("dark");
       }
-
-      // Tampilkan paket yang dipilih
-      const package =
-        localStorage.getItem("career360_student_package") || "Belum dipilih";
-      document.getElementById("selectedPackage").textContent = package;
     </script>
   </body>
 </html>

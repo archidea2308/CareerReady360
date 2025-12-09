@@ -108,7 +108,49 @@
           id="progressSection"
           class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8 hidden">
           <h2 class="text-xl font-semibold mb-4">Progress Kompetensi</h2>
-          <canvas id="progressChart" height="100"></canvas>
+          <canvas id="progressChart" height="50"></canvas>
+
+          <!-- script grafik -->
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const ctx = document
+                .getElementById("progressChart")
+                .getContext("2d");
+
+              const progressChart = new Chart(ctx, {
+                type: "bar", // Bisa diganti: line, pie, doughnut, radar, dll
+                data: {
+                  labels: [
+                    "Kompetensi 1",
+                    "Kompetensi 2",
+                    "Kompetensi 3",
+                    "Kompetensi 4",
+                  ],
+                  datasets: [
+                    {
+                      label: "Progress (%)",
+                      data: [70, 40, 85, 55], // dummy data
+                      backgroundColor: [
+                        "#3b82f6",
+                        "#10b981",
+                        "#f59e0b",
+                        "#ef4444",
+                      ],
+                    },
+                  ],
+                },
+                options: {
+                  responsive: true,
+                  scales: {
+                    y: {
+                      beginAtZero: true,
+                      max: 100,
+                    },
+                  },
+                },
+              });
+            });
+          </script>
         </div>
 
         <!-- Career Pro: Talent Visibility Card -->
@@ -241,5 +283,7 @@
         document.documentElement.classList.toggle("dark");
       }
     </script>
+    <!-- chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </body>
 </html>

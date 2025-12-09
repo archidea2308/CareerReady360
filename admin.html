@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Admin – CareerReady360</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      tailwind.config = { darkMode: "class" };
+    </script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap");
+    </style>
+  </head>
+  <body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+    <div class="flex min-h-screen">
+      <aside class="w-64 bg-white dark:bg-gray-800 shadow-md p-6 flex flex-col">
+        <div class="text-xl font-bold text-indigo-600 mb-10">
+          CareerReady360
+        </div>
+        <nav class="space-y-4 flex-1">
+          <a href="#" class="font-medium text-indigo-600 dark:text-indigo-400"
+            >Dashboard</a
+          >
+          <a
+            href="#"
+            class="text-gray-600 dark:text-gray-300 hover:text-gray-900"
+            >Manajemen Siswa</a
+          >
+        </nav>
+        <button
+          onclick="logout()"
+          class="mt-auto text-left text-red-500 hover:text-red-700">
+          Logout
+        </button>
+      </aside>
+
+      <main class="flex-1 p-8">
+        <div class="flex justify-between items-center mb-8">
+          <h1 class="text-2xl font-bold">Dashboard Admin</h1>
+          <!-- Add Student Button -->
+          <button
+            onclick="openAddStudentModal()"
+            class="mb-6 bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg">
+            + Tambah Siswa
+          </button>
+
+          <!-- Add Student Modal -->
+          <div
+            id="addStudentModal"
+            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden z-50">
+            <div
+              class="bg-white dark:bg-gray-800 rounded-xl shadow-lg w-full max-w-md p-6">
+              <h2 class="text-xl font-bold mb-4">Tambah Siswa Baru</h2>
+              <form id="addStudentForm" class="space-y-4">
+                <div>
+                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                    >Nama Lengkap</label
+                  >
+                  <input
+                    type="text"
+                    id="studentName"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    required />
+                </div>
+                <div>
+                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                    >NIS</label
+                  >
+                  <input
+                    type="text"
+                    id="studentNis"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    required />
+                </div>
+                <div>
+                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                    >Jurusan</label
+                  >
+                  <input
+                    type="text"
+                    id="studentJurusan"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    required />
+                </div>
+                <div>
+                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                    >Jumlah Proyek (0–10)</label
+                  >
+                  <input
+                    type="number"
+                    id="studentProjects"
+                    min="0"
+                    max="10"
+                    value="0"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                </div>
+                <div>
+                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                    >Sertifikasi (0–10)</label
+                  >
+                  <input
+                    type="number"
+                    id="studentCerts"
+                    min="0"
+                    max="10"
+                    value="0"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                </div>
+                <div>
+                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                    >Magang (0–5)</label
+                  >
+                  <input
+                    type="number"
+                    id="studentIntern"
+                    min="0"
+                    max="5"
+                    value="0"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                </div>
+                <div>
+                  <label class="block text-gray-700 dark:text-gray-300 mb-1"
+                    >Soft Skill (0–10)</label
+                  >
+                  <input
+                    type="number"
+                    id="studentSoft"
+                    min="0"
+                    max="10"
+                    value="0"
+                    class="w-full px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white" />
+                </div>
+                <div class="flex justify-end gap-3 pt-2">
+                  <button
+                    type="button"
+                    onclick="closeAddStudentModal()"
+                    class="px-4 py-2 border rounded text-gray-700 dark:text-gray-300">
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    class="px-4 py-2 bg-indigo-600 text-white rounded">
+                    Simpan
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <span
+              id="currentUser"
+              class="text-gray-600 dark:text-gray-300"></span>
+            <button
+              onclick="toggleDarkMode()"
+              class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+              <span class="dark:hidden">🌙</span>
+              <span class="hidden dark:inline">☀️</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <h3 class="text-gray-500 dark:text-gray-400">Total Siswa</h3>
+            <p class="text-3xl font-bold" id="totalStudents">0</p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <h3 class="text-gray-500 dark:text-gray-400">
+              Rata-rata Readiness
+            </h3>
+            <p class="text-3xl font-bold" id="avgReadiness">0</p>
+          </div>
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <h3 class="text-gray-500 dark:text-gray-400">
+              Sertifikasi Terdaftar
+            </h3>
+            <p class="text-3xl font-bold">12</p>
+          </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-4">Distribusi Readiness</h2>
+            <canvas id="readinessBarChart" height="150"></canvas>
+          </div>
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+            <h2 class="text-xl font-semibold mb-4">Kompetensi Rata-rata</h2>
+            <canvas id="radarChart" height="150"></canvas>
+          </div>
+        </div>
+
+        <!-- Export Button -->
+        <button
+          onclick="exportData()"
+          class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+          Export Data (CSV)
+        </button>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      checkAuth();
+      const user = JSON.parse(localStorage.getItem("career360_user"));
+      document.getElementById("currentUser").textContent = user.email;
+
+      const students = getStudents();
+      document.getElementById("totalStudents").textContent = students.length;
+
+      const avg =
+        students.reduce((sum, s) => sum + s.readiness, 0) / students.length ||
+        0;
+      document.getElementById("avgReadiness").textContent = Math.round(avg);
+
+      // Bar Chart
+      const barCtx = document
+        .getElementById("readinessBarChart")
+        .getContext("2d");
+      new Chart(barCtx, {
+        type: "bar",
+        data: {
+          labels: students.map((s) => s.name),
+          datasets: [
+            {
+              label: "Readiness Score",
+              data: students.map((s) => s.readiness),
+              backgroundColor: "#6366f1",
+            },
+          ],
+        },
+        options: {
+          responsive: true,
+          scales: { y: { beginAtZero: true, max: 100 } },
+        },
+      });
+
+      // Radar Chart
+      const avgProjects =
+        students.reduce((sum, s) => sum + s.projects, 0) / students.length;
+      const avgCerts =
+        students.reduce((sum, s) => sum + s.certifications, 0) /
+        students.length;
+      const avgIntern =
+        students.reduce((sum, s) => sum + s.internships, 0) / students.length;
+      const avgSoft =
+        students.reduce((sum, s) => sum + s.softskills, 0) / students.length;
+
+      const radarCtx = document.getElementById("radarChart").getContext("2d");
+      new Chart(radarCtx, {
+        type: "radar",
+        data: {
+          labels: ["Proyek", "Sertifikasi", "Magang", "Soft Skill"],
+          datasets: [
+            {
+              data: [avgProjects, avgCerts, avgIntern, avgSoft],
+              fill: true,
+              backgroundColor: "rgba(99, 102, 241, 0.2)",
+              borderColor: "rgb(99, 102, 241)",
+              pointBackgroundColor: "rgb(99, 102, 241)",
+            },
+          ],
+        },
+        options: { responsive: true, scales: { r: { max: 10 } } },
+      });
+
+      function exportData() {
+        const headers = ["Nama", "NIS", "Jurusan", "Readiness"];
+        const rows = students.map((s) => [
+          s.name,
+          s.nis,
+          s.jurusan,
+          s.readiness,
+        ]);
+        exportToCSV("career360_export.csv", [headers, ...rows]);
+      }
+
+      function toggleDarkMode() {
+        document.documentElement.classList.toggle("dark");
+      }
+
+      // sdsd
+      // Modal control
+      function openAddStudentModal() {
+        document.getElementById("addStudentModal").classList.remove("hidden");
+      }
+
+      function closeAddStudentModal() {
+        document.getElementById("addStudentModal").classList.add("hidden");
+      }
+
+      // Handle form submit
+      document
+        .getElementById("addStudentForm")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const name = document.getElementById("studentName").value.trim();
+          const nis = document.getElementById("studentNis").value.trim();
+          const jurusan = document
+            .getElementById("studentJurusan")
+            .value.trim();
+          const projects =
+            parseInt(document.getElementById("studentProjects").value) || 0;
+          const certs =
+            parseInt(document.getElementById("studentCerts").value) || 0;
+          const intern =
+            parseInt(document.getElementById("studentIntern").value) || 0;
+          const soft =
+            parseInt(document.getElementById("studentSoft").value) || 0;
+
+          if (!name || !nis || !jurusan) {
+            alert("Harap isi semua kolom wajib.");
+            return;
+          }
+
+          // Generate unique ID (simple)
+          const students = getStudents();
+          const newId =
+            Math.max(0, ...students.map((s) => parseInt(s.id) || 0)) + 1;
+
+          const newStudent = {
+            id: newId.toString(),
+            name,
+            nis,
+            jurusan,
+            email: nis + "@smk.id",
+            projects,
+            certifications: certs,
+            internships: intern,
+            softskills: soft,
+            portfolio: [],
+            readiness: calculateReadiness({
+              projects,
+              certifications: certs,
+              internships: intern,
+              softskills: soft,
+            }),
+          };
+
+          // Save
+          students.push(newStudent);
+          saveStudents(students);
+
+          // Reset & close
+          document.getElementById("addStudentForm").reset();
+          closeAddStudentModal();
+
+          // Refresh UI
+          location.reload(); // Simple refresh to update charts & stats
+        });
+    </script>
+  </body>
+</html>

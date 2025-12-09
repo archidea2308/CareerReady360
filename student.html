@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Siswa – CareerReady360</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');</style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white dark:bg-gray-800 shadow-md p-6 flex flex-col">
+      <div class="text-xl font-bold text-indigo-600 mb-10">CareerReady360</div>
+      <nav class="space-y-4 flex-1">
+        <a href="#" class="font-medium text-indigo-600 dark:text-indigo-400">Dashboard</a>
+        <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900">Portofolio</a>
+        <a href="#" class="text-gray-600 dark:text-gray-300 hover:text-gray-900">Sertifikasi</a>
+      </nav>
+      <button onclick="logout()" class="mt-auto text-left text-red-500 hover:text-red-700">Logout</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-2xl font-bold">Dashboard Siswa</h1>
+        <div class="flex items-center gap-4">
+          <span id="currentUser" class="text-gray-600 dark:text-gray-300"></span>
+          <button onclick="toggleDarkMode()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+            <span class="dark:hidden">🌙</span>
+            <span class="hidden dark:inline">☀️</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Readiness Score -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8">
+        <h2 class="text-xl font-semibold mb-4">Skor Kesiapan Kerja</h2>
+        <div class="flex items-end gap-6">
+          <div class="relative w-32 h-32">
+            <svg viewBox="0 0 36 36" class="w-full h-full">
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#eee" stroke-width="3"/>
+              <path d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="#6366f1" stroke-width="3" stroke-dasharray="100, 100" stroke-dashoffset="-70" id="readinessArc"/>
+            </svg>
+            <div class="absolute inset-0 flex items-center justify-center text-2xl font-bold" id="readinessScore">0</div>
+          </div>
+          <div>
+            <p class="text-gray-600 dark:text-gray-300">Semakin lengkap portofolio, sertifikasi, dan pengalaman magang, skor semakin tinggi.</p>
+            <button onclick="simulateUpdate()" class="mt-2 text-sm bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-200 px-3 py-1 rounded">+ Tambah Data Simulasi</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Progress Chart -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
+        <h2 class="text-xl font-semibold mb-4">Progress Kompetensi</h2>
+        <canvas id="progressChart" height="100"></canvas>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    checkAuth();
+    const user = JSON.parse(localStorage.getItem('career360_user'));
+    document.getElementById('currentUser').textContent = user.email;
+
+    // Get or create student mock data
+    let student = { 
+      name: "Siswa Demo", 
+      projects: 2, 
+      certifications: 1, 
+      internships: 0, 
+      softskills: 5 
+    };
+    let score = calculateReadiness(student);
+    renderReadiness(score);
+
+    function renderReadiness(s) {
+      document.getElementById('readinessScore').textContent = s;
+      const offset = -s;
+      document.getElementById('readinessArc').style.strokeDashoffset = offset.toString();
+    }
+
+    // Chart
+    const ctx = document.getElementById('progressChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Proyek', 'Sertifikasi', 'Magang', 'Soft Skill'],
+        datasets: [{
+          data: [student.projects, student.certifications, student.internships, student.softskills],
+          backgroundColor: '#6366f1'
+        }]
+      },
+      options: { responsive: true, scales: { y: { beginAtZero: true, max: 10 } } }
+    });
+
+    function simulateUpdate() {
+      student.projects += 1;
+      student.certifications += 1;
+      student.internships += 1;
+      student.softskills = Math.min(10, student.softskills + 1);
+      const newScore = calculateReadiness(student);
+      renderReadiness(newScore);
+      // Re-render chart
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Proyek', 'Sertifikasi', 'Magang', 'Soft Skill'],
+          datasets: [{
+            data: [student.projects, student.certifications, student.internships, student.softskills],
+            backgroundColor: '#6366f1'
+          }]
+        },
+        options: { responsive: true, scales: { y: { beginAtZero: true, max: 10 } } }
+      });
+    }
+
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>

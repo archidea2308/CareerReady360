@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Industri – CareerReady360</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');</style>
+  <style>
+    .table-container { max-height: 500px; overflow-y: auto; }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100">
+  <div class="flex min-h-screen">
+    <aside class="w-64 bg-white dark:bg-gray-800 shadow-md p-6 flex flex-col">
+      <div class="text-xl font-bold text-indigo-600 mb-10">CareerReady360</div>
+      <nav class="space-y-4 flex-1">
+        <a href="#" class="font-medium text-indigo-600 dark:text-indigo-400">Talent Pool</a>
+      </nav>
+      <button onclick="logout()" class="mt-auto text-left text-red-500 hover:text-red-700">Logout</button>
+    </aside>
+
+    <main class="flex-1 p-8">
+      <div class="flex justify-between items-center mb-8">
+        <h1 class="text-2xl font-bold">Talent Pool Siswa</h1>
+        <div class="flex items-center gap-4">
+          <span id="currentUser" class="text-gray-600 dark:text-gray-300"></span>
+          <button onclick="toggleDarkMode()" class="p-2 rounded-full bg-gray-200 dark:bg-gray-700">
+            <span class="dark:hidden">🌙</span>
+            <span class="hidden dark:inline">☀️</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="bg-white dark:bg-gray-800 p-4 rounded-xl shadow mb-6">
+        <div class="flex flex-wrap gap-4">
+          <input type="text" id="searchName" placeholder="Cari nama..." class="px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <select id="filterSkill" class="px-3 py-2 border rounded dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+            <option value="">Semua Skill</option>
+            <option value="Web">Web Development</option>
+            <option value="Network">Jaringan</option>
+          </select>
+          <button onclick="filterTable()" class="bg-indigo-600 text-white px-4 py-2 rounded">Terapkan</button>
+        </div>
+      </div>
+
+      <!-- Talent Table -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow overflow-hidden table-container">
+        <table class="w-full">
+          <thead class="bg-gray-100 dark:bg-gray-700">
+            <tr>
+              <th class="text-left p-4">Nama</th>
+              <th class="text-left p-4">Jurusan</th>
+              <th class="text-left p-4">Readiness</th>
+              <th class="text-left p-4">Portofolio</th>
+              <th class="text-left p-4">Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="talentTableBody">
+            <!-- filled by JS -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    checkAuth();
+    const user = JSON.parse(localStorage.getItem('career360_user'));
+    document.getElementById('currentUser').textContent = user.email;
+
+    const students = getStudents();
+    const tbody = document.getElementById('talentTableBody');
+    students.forEach(s => {
+      const row = `<tr class="border-t dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-750">
+        <td class="p-4 font-medium">${s.name}</td>
+        <td class="p-4">${s.jurusan}</td>
+        <td class="p-4">
+          <div class="flex items-center">
+            <span class="w-10">${s.readiness}</span>
+            <div class="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+              <div class="h-full bg-indigo-600" style="width: ${s.readiness}%"></div>
+            </div>
+          </div>
+        </td>
+        <td class="p-4 text-sm">${s.portfolio.join(', ')}</td>
+        <td class="p-4">
+          <button onclick="viewProfile('${s.id}')" class="text-indigo-600 hover:underline mr-3">Lihat</button>
+          <button onclick="invite('${s.name}')" class="text-green-600 hover:underline">Undang</button>
+        </td>
+      </tr>`;
+      tbody.innerHTML += row;
+    });
+
+    function filterTable() {
+      const name = document.getElementById('searchName').value.toLowerCase();
+      const rows = tbody.querySelectorAll('tr');
+      rows.forEach(row => {
+        const nameCell = row.children[0].textContent.toLowerCase();
+        row.style.display = nameCell.includes(name) ? '' : 'none';
+      });
+    }
+
+    function viewProfile(id) {
+      alert('Menampilkan profil detail siswa (simulasi)');
+    }
+
+    function invite(name) {
+      alert(`Undangan wawancara telah dikirim ke ${name}!`);
+    }
+
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+    }
+  </script>
+</body>
+</html>

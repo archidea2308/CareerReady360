@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login – CareerReady360</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');</style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 flex items-center justify-center min-h-screen p-4">
+  <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md">
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">CareerReady360</h2>
+    <form id="loginForm" class="space-y-4">
+      <div>
+        <label class="block text-gray-700 dark:text-gray-300 mb-1">Email</label>
+        <input type="email" id="email" class="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" required />
+      </div>
+      <div>
+        <label class="block text-gray-700 dark:text-gray-300 mb-1">Role</label>
+        <select id="role" class="w-full px-4 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+          <option value="student">Siswa</option>
+          <option value="admin">Admin Sekolah</option>
+          <option value="industry">Industri/Perusahaan</option>
+        </select>
+      </div>
+      <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-medium">Masuk</button>
+    </form>
+    <p class="text-center mt-6 text-gray-500 dark:text-gray-400">
+      Belum punya akun? Ini sistem demo – login langsung masuk!
+    </p>
+  </div>
+
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const role = document.getElementById('role').value;
+      localStorage.setItem('career360_role', role);
+      localStorage.setItem('career360_user', JSON.stringify({
+        email: document.getElementById('email').value,
+        role: role
+      }));
+      window.location.href = role + '.html';
+    });
+  </script>
+</body>
+</html>

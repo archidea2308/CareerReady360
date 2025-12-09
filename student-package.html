@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pilih Paket – CareerReady360</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' }
+  </script>
+  <style>@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');</style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-100 min-h-screen flex items-center justify-center p-4">
+  <div class="max-w-4xl w-full">
+    <div class="text-center mb-10">
+      <h1 class="text-3xl font-bold">Selamat Datang di CareerReady360!</h1>
+      <p class="text-gray-600 dark:text-gray-300 mt-2">Pilih paket layanan yang sesuai dengan kebutuhanmu:</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Starter -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col">
+        <h2 class="text-xl font-bold text-center mb-4">Starter</h2>
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">Cocok untuk pemula yang ingin mulai membangun portofolio.</p>
+        <ul class="mb-6 space-y-2 text-sm">
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Portofolio dasar</li>
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Input sertifikasi</li>
+          <li class="flex items-center text-gray-400"><span class="mr-2">–</span> Progress tracking</li>
+          <li class="flex items-center text-gray-400"><span class="mr-2">–</span> Rekomendasi magang</li>
+        </ul>
+        <button onclick="selectPackage('Starter')" class="mt-auto bg-gray-200 hover:bg-gray-300 text-gray-800 py-2 rounded-lg font-medium transition">
+          Pilih Starter
+        </button>
+      </div>
+
+      <!-- Career Booster -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col border-2 border-indigo-500 relative">
+        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-indigo-500 text-white text-xs px-3 py-1 rounded-full">Populer</div>
+        <h2 class="text-xl font-bold text-center mb-4">Career Booster</h2>
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">Untuk siswa aktif yang ingin mempercepat kesiapan kerja.</p>
+        <ul class="mb-6 space-y-2 text-sm">
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Semua fitur Starter</li>
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Progress tracking</li>
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Rekomendasi magang</li>
+          <li class="flex items-center text-gray-400"><span class="mr-2">–</span> Akses talent pool</li>
+        </ul>
+        <button onclick="selectPackage('Career Booster')" class="mt-auto bg-indigo-600 hover:bg-indigo-700 text-white py-2 rounded-lg font-medium transition">
+          Pilih Career Booster
+        </button>
+      </div>
+
+      <!-- Career Pro -->
+      <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 flex flex-col">
+        <h2 class="text-xl font-bold text-center mb-4">Career Pro</h2>
+        <p class="text-gray-600 dark:text-gray-300 text-sm mb-4 text-center">Untuk siswa siap kerja yang ingin tampil di talent pool.</p>
+        <ul class="mb-6 space-y-2 text-sm">
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Semua fitur Career Booster</li>
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Akses talent pool</li>
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Profil publik untuk industri</li>
+          <li class="flex items-center"><span class="text-green-500 mr-2">✓</span> Undangan wawancara</li>
+        </ul>
+        <button onclick="selectPackage('Career Pro')" class="mt-auto bg-gray-800 hover:bg-black text-white py-2 rounded-lg font-medium transition dark:bg-gray-700">
+          Pilih Career Pro
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Redirect if not logged in as student
+    const user = JSON.parse(localStorage.getItem('career360_user'));
+    if (!user || user.role !== 'student') {
+      alert('Akses ditolak. Login sebagai siswa terlebih dahulu.');
+      window.location.href = 'login.html';
+    }
+
+    function selectPackage(packageName) {
+      // Simpan pilihan paket ke localStorage
+      localStorage.setItem('career360_student_package', packageName);
+      // Redirect ke dashboard siswa
+      window.location.href = 'student.html';
+    }
+  </script>
+</body>
+</html>

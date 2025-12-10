@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CareerReady360 — Siap Kerja, Siap Berkarya</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563eb',
+            secondary: '#1e40af',
+            success: '#16a34a',
+            warning: '#ca8a04',
+            future: '#7c3aed',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-gray-50 font-sans">
+
+  <!-- Navbar -->
+  <nav class="bg-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center text-white font-bold">CR</div>
+        <span class="text-xl font-bold text-gray-800">CareerReady360</span>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="#features" class="text-gray-600 hover:text-blue-600">Fitur</a>
+        <a href="#pricing" class="text-gray-600 hover:text-blue-600">Harga</a>
+        <a href="#for-schools" class="text-gray-600 hover:text-blue-600">Untuk Sekolah</a>
+        <a href="#for-industry" class="text-gray-600 hover:text-blue-600">Industri</a>
+      </div>
+      <button class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700 transition">
+        Masuk
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="py-16 bg-gradient-to-r from-blue-50 to-indigo-50">
+    <div class="max-w-4xl mx-auto px-6 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+        Siapkan Lulusan SMK Menuju Dunia Kerja
+      </h1>
+      <p class="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+        CareerReady360 adalah platform digital terpadu untuk pendataan kompetensi, portofolio siswa, dan rekomendasi jalur karier berbasis data.
+      </p>
+      <div class="flex flex-col sm:flex-row justify-center gap-4">
+        <button class="bg-blue-600 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-700 transition">
+          Daftar Sekolah
+        </button>
+        <button class="border border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-medium hover:bg-blue-50 transition">
+          Demo untuk Industri
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fitur Utama -->
+  <section id="features" class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Fitur Utama</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-gray-50 p-6 rounded-xl shadow-sm border">
+          <div class="text-blue-600 mb-4"><i class="fas fa-file-alt text-3xl"></i></div>
+          <h3 class="font-bold text-lg mb-2">Portofolio Digital</h3>
+          <p class="text-gray-600">Kumpulkan proyek, sertifikasi, magang, video, dan nilai keterampilan dalam satu tempat.</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-xl shadow-sm border">
+          <div class="text-purple-600 mb-4"><i class="fas fa-road text-3xl"></i></div>
+          <h3 class="font-bold text-lg mb-2">Career Path Personal</h3>
+          <p class="text-gray-600">Dapatkan rekomendasi jalur karier berdasarkan soft & hard skill melalui interview simulation.</p>
+        </div>
+        <div class="bg-gray-50 p-6 rounded-xl shadow-sm border">
+          <div class="text-green-600 mb-4"><i class="fas fa-chart-line text-3xl"></i></div>
+          <h3 class="font-bold text-lg mb-2">Tingkat Kesiapan Kerja</h3>
+          <p class="text-gray-600">Dinilai dalam 3 kategori: <span class="font-semibold">Ready to Work</span>, <span class="font-semibold">Shining</span>, atau <span class="font-semibold">Future</span>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Paket Langganan -->
+  <section id="pricing" class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Pilih Paket Langganan</h2>
+      <p class="text-gray-600 text-center mb-12">Untuk siswa dan alumni yang ingin meningkatkan daya saing di dunia kerja</p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Starter -->
+        <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Starter</h3>
+          <p class="text-3xl font-bold text-primary mb-4">Rp15.900<span class="text-sm font-normal">/siswa/tahun</span></p>
+          <ul class="space-y-2 mb-6 text-gray-600">
+            <li>✓ 1x Career Profiling Premium</li>
+            <li>✓ 1x Simulasi Interview</li>
+            <li>✓ 3x CV Check AI</li>
+            <li>✓ 1x Job-Match Scan</li>
+            <li>✓ 1x Konsultasi Karir Lite</li>
+          </ul>
+          <button class="w-full bg-gray-200 text-gray-800 py-2 rounded-lg font-medium">Pilih Paket</button>
+        </div>
+
+        <!-- Career Booster -->
+        <div class="bg-white p-8 rounded-xl shadow-md border-2 border-blue-500 relative">
+          <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-full">
+            Paling Populer
+          </div>
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Career Booster</h3>
+          <p class="text-3xl font-bold text-primary mb-4">Rp39.900<span class="text-sm font-normal">/siswa/tahun</span></p>
+          <ul class="space-y-2 mb-6 text-gray-600">
+            <li>✓ 2x Simulasi Interview</li>
+            <li>✓ 6x CV Optimization</li>
+            <li>✓ 5x Job-Match Scan</li>
+            <li>✓ 2x Career Counseling</li>
+            <li>✓ 1x Portfolio Review</li>
+            <li>✓ Akses Talent Academy</li>
+          </ul>
+          <button class="w-full bg-blue-600 text-white py-2 rounded-lg font-medium hover:bg-blue-700 transition">Pilih Paket</button>
+        </div>
+
+        <!-- Career Pro -->
+        <div class="bg-white p-8 rounded-xl shadow-md border border-gray-200">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">Career Pro</h3>
+          <p class="text-3xl font-bold text-primary mb-4">Rp99.000<span class="text-sm font-normal">/siswa/tahun</span></p>
+          <ul class="space-y-2 mb-6 text-gray-600">
+            <li>✓ Interview Simulation Unlimited</li>
+            <li>✓ CV Analysis Unlimited</li>
+            <li>✓ Portfolio Optimization</li>
+            <li>✓ Job Tracking Dashboard</li>
+            <li>✓ Sertifikasi Internal (token-based)</li>
+            <li>✓ Career Health Score Bulanan</li>
+            <li>✓ Premium Badge (terlihat industri)</li>
+          </ul>
+          <button class="w-full bg-gray-200 text-gray-800 py-2 rounded-lg font-medium">Pilih Paket</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Untuk Sekolah -->
+  <section id="for-schools" class="py-16 bg-white">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Untuk Sekolah</h2>
+      <p class="text-gray-600 mb-8 max-w-3xl mx-auto">
+        Dapatkan dashboard Talent Pool yang menampilkan peta kompetensi seluruh siswa. Bantu BKK, guru, dan wali kelas dalam memantau dan menyalurkan lulusan secara tepat sasaran.
+      </p>
+      <button class="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition">
+        Ajukan Demo Sekolah
+      </button>
+    </div>
+  </section>
+
+  <!-- Untuk Industri -->
+  <section id="for-industry" class="py-16 bg-gradient-to-r from-blue-50 to-indigo-50">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">Untuk Industri</h2>
+      <p class="text-gray-600 mb-8 max-w-3xl mx-auto">
+        Akses dashboard pencarian tenaga kerja dengan filter berdasarkan kompetensi, sertifikasi, pengalaman, dan tingkat kesiapan kerja siswa.
+      </p>
+      <button class="border border-blue-600 text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-blue-50 transition">
+        Coba Akses Industri
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-10">
+    <div class="max-w-6xl mx-auto px-6 text-center">
+      <div class="flex items-center justify-center space-x-2 mb-4">
+        <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center font-bold">CR</div>
+        <span class="text-xl font-bold">CareerReady360</span>
+      </div>
+      <p class="text-gray-400">Membangun jembatan antara sekolah, siswa, dan industri melalui data yang terstruktur dan akurat.</p>
+      <p class="text-gray-500 mt-6 text-sm">© 2025 CareerReady360. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

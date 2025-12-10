@@ -43,7 +43,6 @@
       </aside>
 
       <!-- Main Content -->
-      <!-- Main Content -->
       <main class="flex-1 p-8">
         <div class="flex justify-between items-center mb-8">
           <h1 class="text-2xl font-bold">Dashboard Siswa</h1>
@@ -68,7 +67,7 @@
           </div>
         </div>
 
-        <!-- Readiness Section (Tersedia untuk semua paket) -->
+        <!-- Readiness Section -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8">
           <h2 class="text-xl font-semibold mb-4">Skor Kesiapan Kerja</h2>
           <div class="flex items-end gap-6">
@@ -109,48 +108,6 @@
           class="bg-white dark:bg-gray-800 rounded-xl shadow p-6 mb-8 hidden">
           <h2 class="text-xl font-semibold mb-4">Progress Kompetensi</h2>
           <canvas id="progressChart" height="50"></canvas>
-
-          <!-- script grafik -->
-          <script>
-            document.addEventListener("DOMContentLoaded", function () {
-              const ctx = document
-                .getElementById("progressChart")
-                .getContext("2d");
-
-              const progressChart = new Chart(ctx, {
-                type: "bar", // Bisa diganti: line, pie, doughnut, radar, dll
-                data: {
-                  labels: [
-                    "Project",
-                    "Certifications",
-                    "Internships",
-                    "Soft Skills",
-                  ],
-                  datasets: [
-                    {
-                      label: "Progress (%)",
-                      data: [70, 40, 85, 55], // dummy data
-                      backgroundColor: [
-                        "#3b82f6",
-                        "#10b981",
-                        "#f59e0b",
-                        "#ef4444",
-                      ],
-                    },
-                  ],
-                },
-                options: {
-                  responsive: true,
-                  scales: {
-                    y: {
-                      beginAtZero: true,
-                      max: 100,
-                    },
-                  },
-                },
-              });
-            });
-          </script>
         </div>
 
         <!-- Career Pro: Talent Visibility Card -->
@@ -184,14 +141,21 @@
             <li>Dapatkan rekomendasi magang</li>
             <li>(Career Pro) Tampil di talent pool industri</li>
           </ul>
-          <button
-            onclick="alert('Fitur upgrade akan tersedia di versi produksi!')"
-            class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm">
-            Upgrade Sekarang
-          </button>
+          <div class="flex gap-3">
+            <button
+              onclick="alert('Fitur upgrade akan tersedia di versi produksi!')"
+              class="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-lg text-sm">
+              Upgrade Sekarang
+            </button>
+            <button
+              onclick="openFeatureModal()"
+              class="bg-white dark:bg-gray-700 text-amber-700 dark:text-amber-300 border border-amber-500 px-4 py-2 rounded-lg text-sm">
+              Lihat Semua Fitur
+            </button>
+          </div>
         </div>
 
-        <!-- Portofolio Section (Semua paket bisa input, tapi tampil beda) -->
+        <!-- Portofolio Section -->
         <div class="bg-white dark:bg-gray-800 rounded-xl shadow p-6">
           <div class="flex justify-between items-center mb-4">
             <h2 class="text-xl font-semibold">Portofolio Saya</h2>
@@ -206,25 +170,75 @@
           </div>
         </div>
       </main>
-    </div>
+
+      <!-- Feature Modal -->
+      <div
+        id="featureModal"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-xl font-bold">Fitur Berdasarkan Paket</h3>
+            <button
+              onclick="closeFeatureModal()"
+              class="text-gray-500 hover:text-gray-800 dark:hover:text-gray-200">
+              ✕
+            </button>
+          </div>
+
+          <!-- Starter -->
+          <div class="mb-6">
+            <h4 class="font-semibold text-lg mb-2">Starter</h4>
+            <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
+              <li>1x Career Profiling Premium</li>
+              <li>1x Simulasi Interview</li>
+              <li>3x CV Check AI</li>
+              <li>1x Job-Match Scan</li>
+              <li>1x Konsultasi Karir Lite</li>
+            </ul>
+          </div>
+
+          <!-- Career Booster -->
+          <div class="mb-6">
+            <h4 class="font-semibold text-lg mb-2">Career Booster</h4>
+            <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
+              <li>2x Interview Simulation</li>
+              <li>6x CV Optimization</li>
+              <li>5x Job-Match Scan</li>
+              <li>2x Career Counseling</li>
+              <li>1x Portfolio Review</li>
+              <li>Akses Talent Academy (mini training*)</li>
+            </ul>
+          </div>
+
+          <!-- Career Pro -->
+          <div>
+            <h4 class="font-semibold text-lg mb-2">Career Pro</h4>
+            <ul class="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300">
+              <li>Interview Simulation Unlimited</li>
+              <li>CV Analysis Unlimited</li>
+              <li>Portfolio Optimization</li>
+              <li>Job Tracking Dashboard</li>
+              <li>Sertifikasi Internal (token-based)</li>
+              <li>Career Health Score Monthly</li>
+              <li>Premium Badge (dilihat industri)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
 
     <script src="script.js"></script>
     <script>
       // Tunggu DOM siap
       document.addEventListener("DOMContentLoaded", () => {
-        // Cek otentikasi
         const user = JSON.parse(localStorage.getItem("career360_user"));
         if (!user || user.role !== "student") {
           window.location.href = "login.html";
         }
 
-        // Ambil paket
         const package =
           localStorage.getItem("career360_student_package") || "Starter";
-        console.log("Paket aktif:", package); // <-- untuk debug
         document.getElementById("selectedPackage").textContent = package;
 
-        // Mock data
         const studentData = {
           projects: 3,
           certifications: 2,
@@ -233,57 +247,85 @@
           portfolio: ["Aplikasi Inventaris", "Website Sekolah"],
         };
 
-        // Hitung readiness
         const score = calculateReadiness(studentData);
         document.getElementById("readinessScore").textContent = score;
-        document.getElementById("readinessArc").style.strokeDashoffset =
-          (-score).toString();
+        document.getElementById("readinessArc").style.strokeDashoffset = (-score).toString();
 
-        // Reset semua hidden dulu (opsional)
         document.getElementById("progressSection").classList.add("hidden");
         document.getElementById("talentCard").classList.add("hidden");
         document.getElementById("upgradeCTA").classList.add("hidden");
 
-        // Tampilkan berdasarkan paket
         if (package === "Starter") {
           document.getElementById("upgradeCTA").classList.remove("hidden");
           document.getElementById("uploadBtn").disabled = true;
-          document
-            .getElementById("uploadBtn")
-            .classList.add("opacity-50", "cursor-not-allowed");
+          document.getElementById("uploadBtn").classList.add("opacity-50", "cursor-not-allowed");
         } else {
           document.getElementById("uploadBtn").disabled = false;
-          document
-            .getElementById("uploadBtn")
-            .classList.remove("opacity-50", "cursor-not-allowed");
+          document.getElementById("uploadBtn").classList.remove("opacity-50", "cursor-not-allowed");
         }
 
         if (package === "Career Booster" || package === "Career Pro") {
           document.getElementById("progressSection").classList.remove("hidden");
-          // ... (render chart di sini jika diperlukan)
         }
 
         if (package === "Career Pro") {
           document.getElementById("talentCard").classList.remove("hidden");
         }
 
-        // Render portofolio
         const list = document.getElementById("portfolioList");
         list.innerHTML = studentData.portfolio.length
           ? studentData.portfolio
-              .map(
-                (p) =>
-                  `<div class="p-3 bg-gray-100 dark:bg-gray-700 rounded">${p}</div>`
-              )
+              .map((p) => `<div class="p-3 bg-gray-100 dark:bg-gray-700 rounded">${p}</div>`)
               .join("")
           : '<p class="text-gray-500 italic">Belum ada portofolio.</p>';
       });
 
+      function calculateReadiness(data) {
+        return Math.min(100, Math.round((data.projects * 10 + data.certifications * 15 + data.internships * 25 + data.softskills * 5) / 10));
+      }
+
       function toggleDarkMode() {
         document.documentElement.classList.toggle("dark");
       }
+
+      function openFeatureModal() {
+        document.getElementById("featureModal").classList.remove("hidden");
+      }
+
+      function closeFeatureModal() {
+        document.getElementById("featureModal").classList.add("hidden");
+      }
+
+      function logout() {
+        localStorage.removeItem("career360_user");
+        window.location.href = "login.html";
+      }
     </script>
-    <!-- chart -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Chart.js -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const ctx = document.getElementById("progressChart")?.getContext("2d");
+        if (ctx) {
+          new Chart(ctx, {
+            type: "bar",
+            data: {
+              labels: ["Project", "Certifications", "Internships", "Soft Skills"],
+              datasets: [{
+                label: "Progress (%)",
+                data: [70, 40, 85, 55],
+                backgroundColor: ["#3b82f6", "#10b981", "#f59e0b", "#ef4444"],
+              }],
+            },
+            options: {
+              responsive: true,
+              scales: {
+                y: { beginAtZero: true, max: 100 }
+              }
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>
